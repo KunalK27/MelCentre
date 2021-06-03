@@ -1,3 +1,12 @@
+<?php
+ $username = "root";
+ $password = "";
+ $host = "localhost";
+ $connector = mysqli_connect($host, $username, $password)
+    or die("Unable to connect");
+ $selected = mysqli_select_db($connector, "melcentre")
+    or die("Unable to connect2");
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,31 +51,25 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="biomaps.html">MMMP Biomaps</a></li>
-            <li class="nav-item"><a class="nav-link" href="geneset.html">MelanomaDB Gene Sets</a></li>
+            <li class="nav-item"><a class="nav-link" href="biomaps.php">MMMP Biomaps</a></li>
+            <li class="nav-item"><a class="nav-link" href="geneset.php">MelanomaDB Gene Sets</a></li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                 aria-expanded="false">Cluster Data</a>
 
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="primary.html">Primary</a>
-                <a class="dropdown-item" href="uveal.html">Uveal Samples</a>
-                <a class="dropdown-item" href="nonclustered.html">Non Clustered</a>
+                <a class="dropdown-item" href="primary.php">Primary</a>
+                <a class="dropdown-item" href="uveal.php">Uveal Samples</a>
+                <a class="dropdown-item" href="nonclustered.php">Non Clustered</a>
               </div>
             </li>> -->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                 aria-expanded="false">MMMP TTD</a>
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="TSDM.html">Sensitivity: DNA Molecules</a>
-                <a class="dropdown-item" href="TSMM.html">Sensitivity: mRNA Molecules</a>
-                <a class="dropdown-item" href="TSPM.html">Sensitivity: Protein Molecules</a>
-                <a class="dropdown-item" href="TYDM.html">Synergism: DNA Molecules</a>
-                <a class="dropdown-item" href="TYMM.html">Synergism: mRNA Molecules</a>
-                <a class="dropdown-item" href="TYPM.html">Synergism: Protein Molecules</a>
-                <a class="dropdown-item" href="TTDM.html">Toxicity: DNA Molecules</a>
-                <a class="dropdown-item" href="TTMM.html">Toxicity: mRNA Molecules</a>
-                <a class="dropdown-item" href="TTPM.html">Toxicity: Protein Molecules</a>
+              <a class="dropdown-item" href="TTDSens.php">TTD: Sensitivity</a>
+                  <a class="dropdown-item" href="TTDSyn.php">TTD: Synergism</a>
+                  <a class="dropdown-item" href="TTDTox.php">TTD: Toxicity</a>
               </div>
             </li>
             <li class="nav-item"><a class="nav-link" href="geo.html">Geographical Analysis</a></li>
@@ -109,13 +112,52 @@
                 <br>
                 A refined version of the table with option for relevant queries for Uveal Melanoma Samples
                 is given below
-              </p>
-              <p>Refrence to Source: 
+              </ps>
+            </div>
+            <?php
+    //execute the SQL query and return records
+    $result = mysqli_query( $connector, "SELECT * FROM melanoma_uveal");
+    ?>
+     <table>
+        <thead>
+            <tr>
+                <th>CIU_ID</th>
+                <th>Case_No</th>
+                <th>Sex</th>
+                <th>Age</th>
+                <th>Biopsy Site</th>
+                <th>p16 mutation status</th>
+                <th>Vasulogenic mimicry</th>
+                <th>Gel contraction</th>
+                <th>Cell motility</th>
+                <th>Scratch Wound</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            while ($row = mysqli_fetch_array($result)) {
+                echo
+                "<tr>
+                <td>{$row['ciu_id']}</td>
+                <td>{$row['case_no']}</td>
+                <td>{$row['sex']}</td>
+                <td>{$row['age']}</td>
+                <td>{$row['biopsy']}</td>
+                <td>{$row['p16']}</td>
+                <td>{$row['vas']}</td>
+                <td>{$row['gel']}</td>
+                <td>{$row['cell']}</td>
+                <td>{$row['scratch']}</td>
+        </tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+    <p>Refrence to Source: 
                 <br>
                 Bittner, M., Meltzer, P., Chen, Y., Jiang, Y., Seftor, E., Hendrix, M., Radmacher, M., Simon, R., Yakhini, Z., Ben-Dor, A., Sampas, N., Dougherty, E., Wang, E., Marincola, F., Gooden, C., Lueders, J., Glatfelter, A., Pollock, P., Carpten, J., Gillanders, E., … Sondak, V. (2000). Molecular classification of cutaneous malignant melanoma by gene expression profiling. Nature, 406(6795), 536–540.
               <br>
               https://doi.org/10.1038/35020115</p>
-            </div>
           </div>
         </div>
       </div>
@@ -133,3 +175,4 @@
 </body>
 
 </html>
+<?php mysqli_close($connector); ?>
