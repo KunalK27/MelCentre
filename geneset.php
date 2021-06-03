@@ -1,3 +1,12 @@
+<?php
+ $username = "root";
+ $password = "";
+ $host = "localhost";
+ $connector = mysqli_connect($host, $username, $password)
+    or die("Unable to connect");
+ $selected = mysqli_select_db($connector, "melcentre")
+    or die("Unable to connect2");
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -52,16 +61,16 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item"><a class="nav-link" href="biomaps.html">MMMP Biomaps</a></li>
-            <li class="nav-item"><a class="nav-link" href="geneset.html">MelanomaDB Gene Sets</a></li>
+            <li class="nav-item"><a class="nav-link" href="biomaps.php">MMMP Biomaps</a></li>
+            <li class="nav-item"><a class="nav-link" href="geneset.php">MelanomaDB Gene Sets</a></li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                 aria-expanded="false">Cluster Data</a>
 
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="primary.html">Primary</a>
-                <a class="dropdown-item" href="uveal.html">Uveal Samples</a>
-                <a class="dropdown-item" href="nonclustered.html">Non Clustered</a>
+                <a class="dropdown-item" href="primary.php">Primary</a>
+                <a class="dropdown-item" href="uveal.php">Uveal Samples</a>
+                <a class="dropdown-item" href="nonclustered.php">Non Clustered</a>
               </div>
             </li>
             <li class="nav-item dropdown">
@@ -69,15 +78,9 @@
                 aria-expanded="false">MMMP TTD</a>
 
               <div class="dropdown-menu">
-                <a class="dropdown-item" href="TSDM.html">Sensitivity: DNA Molecules</a>
-                <a class="dropdown-item" href="TSMM.html">Sensitivity: mRNA Molecules</a>
-                <a class="dropdown-item" href="TSPM.html">Sensitivity: Protein Molecules</a>
-                <a class="dropdown-item" href="TYDM.html">Synergism: DNA Molecules</a>
-                <a class="dropdown-item" href="TYMM.html">Synergism: mRNA Molecules</a>
-                <a class="dropdown-item" href="TYPM.html">Synergism: Protein Molecules</a>
-                <a class="dropdown-item" href="TTDM.html">Toxicity: DNA Molecules</a>
-                <a class="dropdown-item" href="TTMM.html">Toxicity: mRNA Molecules</a>
-                <a class="dropdown-item" href="TTPM.html">Toxicity: Protein Molecules</a>->
+              <a class="dropdown-item" href="TTDSens.php">TTD: Sensitivity</a>
+                  <a class="dropdown-item" href="TTDSyn.php">TTD: Synergism</a>
+                  <a class="dropdown-item" href="TTDTox.php">TTD: Toxicity</a>
               </div>
             </li>
             <li class="nav-item"><a class="nav-link" href="geo.html">Geographical Analysis</a></li>
@@ -128,8 +131,62 @@
                   <li>genes that have a relationship to melanoma biology in the literature</li>
                   <li>genes associated with many other types of information</li>
                 </ul>
-              </p>
-              <p>Refrence to Source: 
+                </p>
+              <form method="POST" action="geneset1.php">
+                <label for="mgs_id">MGS ID:</label>
+                <input type="text" id="mgs_id" name="mgs_id">
+                <input type="submit" name="Submit1" value="Submit">
+              </form>
+              <form method="POST" action="geneset1.php">
+                <label for="gsn">Gene Set Name:</label>
+                <input type="text" id="gsn" name="gsn">
+                <input type="submit" name="Submit2" value="Submit">
+              </form>
+              <form method="POST" action="geneset1.php">
+                <label for="refdb">Referred Database:</label>
+                <input type="text" id="refdb" name="refdb">
+                <input type="submit" name="Submit3" value="Submit">
+              </form>
+              <form method="POST" action="geneset1.php">
+                <label for="subclass">Sub Class:</label>
+                <input type="text" id="subclass" name="subclass">
+                <input type="submit" name="Submit4" value="Submit">
+              </form>
+              <form method="POST" action="geneset1.php">
+                <label for="link">Link to Publication:</label>
+                <input type="text" id="link" name="link">
+                <input type="submit" name="Submit5" value="Submit">
+              </form>
+              <?php
+    //execute the SQL query and return records
+    $result = mysqli_query( $connector, "SELECT * FROM melanoma_genesets");
+    ?>
+     <table>
+        <thead>
+            <tr>
+                <th>MGS_ID</th>
+                <th>Gene Set Name</th>
+                <th>Referred Database</th>
+                <th>Sub Class</th>
+                <th>Link to Publication</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            while ($row = mysqli_fetch_array($result)) {
+                echo
+                "<tr>
+          <td>{$row['mgs_id']}</td>
+          <td>{$row['gsn']}</td>
+          <td>{$row['refdb']}</td>
+          <td>{$row['subclass']}</td>
+          <td>{$row['link']}</td>
+        </tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+    <p>Refrence to Source: 
                 <br>
                 Trevarton, A. J., Mann, M. B., Knapp, C., Araki, H., Wren, J. D., Stones-Havas, S., Black, M. A., & Print, C. G. (2013). MelanomaDB: A Web Tool for Integrative Analysis of Melanoma Genomic Information to Identify Disease-Associated Molecular Pathways. Frontiers in oncology, 3, 184. 
               <br>
@@ -151,3 +208,4 @@
 </body>
 
 </html>
+<?php mysqli_close($connector); ?>
