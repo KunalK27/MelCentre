@@ -127,9 +127,9 @@ Distributed under the MIT License
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [KunalK27](https://twitter.com/KunalK27) - kunal.kulkarni27@gmail.com
+[KunalK27](https://twitter.com/KunalK27) - kunal.kulkarni27@gmail.com
 
-Project Link: [https://github.com/KunalK27/MelCentre](https://github.com/KunalK27/MelCentre)
+[https://github.com/KunalK27/MelCentre](https://github.com/KunalK27/MelCentre)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
